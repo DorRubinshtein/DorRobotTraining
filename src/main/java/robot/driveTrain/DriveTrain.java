@@ -1,5 +1,6 @@
 package robot.driveTrain;
 
+import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -23,5 +24,9 @@ public class DriveTrain extends Subsystem {
 
     public void arcadeDrive(final double forwardSpeed, final double rotationSpeed) {
         m_components.getDifferentialDrive().arcadeDrive(forwardSpeed, rotationSpeed);
+    }
+
+    public AHRS getNavX(){
+        return m_components.getNavX();
     }
 }
