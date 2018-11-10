@@ -2,6 +2,7 @@ package robot.driveTrain;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
@@ -12,6 +13,8 @@ public class BasicDriveTrainComponents implements DriveTrainComponents {
     private final SpeedController m_rightSpeedController;
     private final DifferentialDrive m_differentialDrive;
     private final AHRS m_NavX;
+    private final PIDController m_RightPIDController;
+    private final PIDController m_LeftPIDController;
 
 
     public BasicDriveTrainComponents() {
@@ -23,6 +26,10 @@ public class BasicDriveTrainComponents implements DriveTrainComponents {
         m_rightSpeedController = new SpeedControllerGroup(firstRightSpeedController, secondRightSpeedController);
         m_differentialDrive = new DifferentialDrive(m_leftSpeedController, m_rightSpeedController);
         m_NavX = new AHRS(SPI.Port.kMXP);
+        m_RightPIDController = new PIDController(1, 0, 0, 0, m_NavX, m_rightSpeedController);
+        m_RightPIDController.setAbsoluteTolerance(3);
+        m_LeftPIDController = new PIDController(1, 0, 0, 0, m_NavX, m_leftSpeedController);
+        m_LeftPIDController.setAbsoluteTolerance(3);
     }
 
 
@@ -45,4 +52,16 @@ public class BasicDriveTrainComponents implements DriveTrainComponents {
     public AHRS getNavX() {
         return m_NavX;
     }
+
+    @Override
+    public PIDController getRightPIDController() {
+        return m_RightPIDController;
+    }
+
+    @Override
+    public PIDController getLeftPIDController() {
+        return m_LeftPIDController;
+    }
+
+
 }

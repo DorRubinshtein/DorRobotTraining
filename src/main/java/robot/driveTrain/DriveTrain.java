@@ -2,11 +2,12 @@ package robot.driveTrain;
 
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class DriveTrain extends Subsystem {
-
     private final DriveTrainComponents m_components;
     private final XboxController m_xboxController;
 
@@ -26,7 +27,34 @@ public class DriveTrain extends Subsystem {
         m_components.getDifferentialDrive().arcadeDrive(forwardSpeed, rotationSpeed);
     }
 
-    public AHRS getNavX(){
-        return m_components.getNavX();
+    public void resetNavX(){
+        m_components.getNavX().reset();
     }
+
+    public void resetPIDControllers(){
+        m_components.getRightPIDController().reset();
+        m_components.getLeftPIDController().reset();
+    }
+
+    public void setSetPointPIDControllers(double m_degree){
+        m_components.getRightPIDController().setSetpoint(m_degree);
+        m_components.getLeftPIDController().setSetpoint(m_degree);
+    }
+
+    public void enablePIDControllers() {
+        m_components.getRightPIDController().enable();
+        m_components.getLeftPIDController().enable();
+    }
+
+    public boolean turningControllerOnTarget(){
+        if (m_components.getRightPIDController().onTarget() && m_components.getLeftPIDController().onTarget())
+            return true;
+        return false;
+    }
+
+    public void disablePIDControllers() {
+        m_components.getRightPIDController().disable();
+        m_components.getLeftPIDController().disable();
+    }
+
 }
