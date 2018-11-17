@@ -31,6 +31,10 @@ public class DriveTrain extends Subsystem {
         m_components.getNavX().reset();
     }
 
+    public double getNavXAngle(){
+        return m_components.getNavX().getAngle();
+    }
+
     public void resetPIDControllers(){
         m_components.getRightPIDController().reset();
         m_components.getLeftPIDController().reset();
@@ -47,7 +51,7 @@ public class DriveTrain extends Subsystem {
     }
 
     public boolean turningControllerOnTarget(){
-        if (m_components.getRightPIDController().onTarget() && m_components.getLeftPIDController().onTarget())
+        if (m_components.getRightPIDController().onTarget() && m_components.getLeftPIDController().onTarget() && !m_components.getNavX().isMoving() )
             return true;
         return false;
     }

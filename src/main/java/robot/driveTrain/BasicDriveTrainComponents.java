@@ -21,14 +21,15 @@ public class BasicDriveTrainComponents implements DriveTrainComponents {
         SpeedController firstLeftSpeedController = new WPI_TalonSRX(0);
         SpeedController secondLeftSpeedController = new WPI_TalonSRX(1);
         m_leftSpeedController = new SpeedControllerGroup(firstLeftSpeedController, secondLeftSpeedController);
-        SpeedController firstRightSpeedController = new WPI_TalonSRX(2);
-        SpeedController secondRightSpeedController = new WPI_TalonSRX(3);
+        SpeedController firstRightSpeedController = new WPI_TalonSRX(3);
+        SpeedController secondRightSpeedController = new WPI_TalonSRX(4);
         m_rightSpeedController = new SpeedControllerGroup(firstRightSpeedController, secondRightSpeedController);
         m_differentialDrive = new DifferentialDrive(m_leftSpeedController, m_rightSpeedController);
+        m_differentialDrive.setSafetyEnabled(false);
         m_NavX = new AHRS(SPI.Port.kMXP);
-        m_RightPIDController = new PIDController(1, 0, 0, 0, m_NavX, m_rightSpeedController);
+        m_RightPIDController = new PIDController(0.014, 0.001, 0.1, 0, m_NavX, m_rightSpeedController);
         m_RightPIDController.setAbsoluteTolerance(3);
-        m_LeftPIDController = new PIDController(1, 0, 0, 0, m_NavX, m_leftSpeedController);
+        m_LeftPIDController = new PIDController(0.014, 0.001, 0.1, 0, m_NavX, m_leftSpeedController);
         m_LeftPIDController.setAbsoluteTolerance(3);
     }
 

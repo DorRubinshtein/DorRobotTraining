@@ -2,12 +2,12 @@ package robot.driveTrain;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class TurnByNavX extends Command {
+public class TurnWithoutPID extends Command {
 
     private DriveTrain m_driveTrain;
     private int m_degree;
 
-    public TurnByNavX(DriveTrain driveTrain, int degree) {
+    public TurnWithoutPID(DriveTrain driveTrain, int degree) {
         m_driveTrain = driveTrain;
         m_degree = degree;
         requires(m_driveTrain);
@@ -16,22 +16,17 @@ public class TurnByNavX extends Command {
     @Override
     protected void initialize() {
         m_driveTrain.resetNavX();
-        m_driveTrain.resetPIDControllers();
-        m_driveTrain.setSetPointPIDControllers(m_degree);
-        m_driveTrain.enablePIDControllers();
     }
 
     @Override
     protected void execute() {
-        //m_driveTrain.arcadeDrive(0, 1);
-        System.out.println(m_driveTrain.getNavXAngle());
-
+        m_driveTrain.arcadeDrive(0, 0.7);
     }
 
     @Override
     protected boolean isFinished() {
-        //return m_driveTrain.getNavX().getAngle() == m_degree;
-        return m_driveTrain.turningControllerOnTarget();
+        System.out.println(m_driveTrain.getNavXAngle());
+        return m_driveTrain.getNavXAngle() > m_degree;
     }
 
     @Override
@@ -42,6 +37,6 @@ public class TurnByNavX extends Command {
     @Override
     protected void end() {
         m_driveTrain.arcadeDrive(0, 0);
-        m_driveTrain.disablePIDControllers();
+        m_driveTrain.resetNavX();
     }
 }

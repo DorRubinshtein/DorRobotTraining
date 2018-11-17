@@ -8,6 +8,7 @@ import robot.collector.EjectCube;
 import robot.driveTrain.BasicDriveTrainComponents;
 import robot.driveTrain.DriveTrain;
 import robot.driveTrain.TurnByNavX;
+import robot.driveTrain.TurnWithoutPID;
 import robot.elevator.Elevator;
 import edu.wpi.first.wpilibj.TimedRobot;
 import robot.elevator.*;
@@ -16,14 +17,22 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 public class Robot extends TimedRobot {
 
+    DriveTrain driveTrain;
     @Override
     public void robotInit() {
         super.robotInit();
         final XboxController xboxController = new XboxController(0);
-        final DriveTrain driveTrain = new DriveTrain(new BasicDriveTrainComponents(), xboxController);
+        driveTrain = new DriveTrain(new BasicDriveTrainComponents(), xboxController);
         final Elevator elevator = new Elevator(new BasicElevatorComponents());
         final Collector collector = new Collector(new BasicCollectorComponents());
-        final OI oi = new OI(xboxController, new Raise(elevator), new Lower(elevator), new EjectCube(collector), new CollectCube(collector), new TurnByNavX(driveTrain, 90));
+        final OI oi = new OI(
+                xboxController,
+                new Raise(elevator),
+                new Lower(elevator),
+                new EjectCube(collector),
+                new CollectCube(collector),
+                new TurnByNavX(driveTrain, 120),
+                new TurnWithoutPID(driveTrain, 90));
     }
 
     @Override
@@ -46,5 +55,8 @@ public class Robot extends TimedRobot {
         LiveWindow.setEnabled(false);
     }
 
-
+    @Override
+    public void disabledPeriodic() {
+        Scheduler.getInstance().run();
+    }
 }
