@@ -9,6 +9,8 @@ import robot.driveTrain.TurnByNavX;
 import robot.driveTrain.TurnWithoutPID;
 import robot.elevator.Lower;
 import robot.elevator.Raise;
+import robot.pitchElevator.PitchElevatoreDown;
+import robot.pitchElevator.PitchElevatoreUp;
 
 public class OI {
     public OI(XboxController xboxController,
@@ -17,7 +19,9 @@ public class OI {
               EjectCube eject,
               CollectCube collectCube,
               TurnByNavX turnByNavX,
-              TurnWithoutPID turnWithoutPID) {
+              TurnWithoutPID turnWithoutPID,
+              PitchElevatoreUp pitchElevatoreUp,
+              PitchElevatoreDown pitchElevatoreDown) {
         JoystickButton raiseElevatorButton = new JoystickButton(xboxController, 4);
         raiseElevatorButton.whileHeld(raiseElevator);
         JoystickButton lowerElevatorButton = new JoystickButton(xboxController, 1);
@@ -30,5 +34,9 @@ public class OI {
         turnByNavXButton.whenPressed(turnByNavX);
         JoystickButton turnWithoutPIDButton = new JoystickButton(xboxController, 6);
         turnWithoutPIDButton.whenPressed(turnWithoutPID);
+        JoystickButton pitchUpButton = new JoystickButton(xboxController, 8);
+        pitchUpButton.whileHeld(pitchElevatoreUp);
+        JoystickButton pitchDownButton = new JoystickButton(xboxController, 9);
+        pitchDownButton.whileHeld(pitchElevatoreDown);
     }
 }

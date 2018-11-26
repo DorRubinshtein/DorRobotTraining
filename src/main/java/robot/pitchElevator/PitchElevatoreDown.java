@@ -20,5 +20,10 @@ public class PitchElevatoreDown extends Command {
     protected boolean isFinished() {
         return false;
     }
+
+    @Override
+    protected void interrupted() {
+        m_pitchElevator.setPitchSpeed(0);
+    }
 }
 

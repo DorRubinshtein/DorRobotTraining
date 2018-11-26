@@ -23,7 +23,7 @@ public class BasicPitchElevatorComponents implements PitchElevatorComponents {
 
     public BasicPitchElevatorComponents(){
 
-        MainSpeedController = new WPI_TalonSRX(28);
+        MainSpeedController = new WPI_TalonSRX(12);
         //ClawSpeedController = new WPI_VictorSPX(29);
     }
 }
